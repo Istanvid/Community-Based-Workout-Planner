@@ -1,0 +1,23 @@
+# workout_planner.py
+
+import json
+
+def add_exercise(exercises_file, name, description, difficulty):
+    with open(exercises_file, "r+") as file:
+        exercises = json.load(file)
+        exercises.append({"name": name, "description": description, "difficulty": difficulty, "votes": 0})
+        file.seek(0)
+        json.dump(exercises, file, indent=4)
+
+def vote_exercise(exercises_file, exercise_name):
+    with open(exercises_file, "r+") as file:
+        exercises = json.load(file)
+        for ex in exercises:
+            if ex["name"] == exercise_name:
+                ex["votes"] += 1
+        file.seek(0)
+        json.dump(exercises, file, indent=4)
+
+# Usage
+add_exercise("exercises.json", "Push-ups", "A basic upper body exercise", "Medium")
+vote_exercise("exercises.json", "Push-ups")
